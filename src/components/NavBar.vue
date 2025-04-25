@@ -30,9 +30,9 @@ onBeforeUnmount(() => {
     <ul class="nav-links" :class="{ active: isActive }">
       <li><RouterLink to="/" @click="isActive = false">Home</RouterLink></li>
       <li><RouterLink to="/about" @click="isActive = false">About</RouterLink></li>
-      <li><RouterLink to="/contact" @click="isActive = false">Contact</RouterLink></li>
+      <li><a href="#contact" @click="isActive = false">Contact</a></li>
       <li><RouterLink to="/services" @click="isActive = false">Services</RouterLink></li>
-      <li><RouterLink to="/blog" @click="isActive = false">Blog</RouterLink></li>
+      <li><a href="#blog" @click="isActive = false">Blog</a></li>
       <li><RouterLink to="/projects" @click="isActive = false">Projects</RouterLink></li>
     </ul>
 

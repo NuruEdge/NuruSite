@@ -116,11 +116,16 @@ const teamGrid = ref(null)
     <section class="about-hero">
       <div class="hero-overlay"></div>
       <div class="logo">
-        <RouterLink to="/" class="logo-link"> Nuru Edge </RouterLink>
+        <RouterLink to="/" class="logo-link"> NuruEdge </RouterLink>
       </div>
       <div class="hero-content">
+        <h2 class="about-title">About Us</h2>
         <h1>Shaping Digital Excellence</h1>
         <p class="hero-subtitle">Where Innovation Meets Purpose</p>
+        <RouterLink to="/" class="home-button">
+          <font-awesome-icon icon="fa-solid fa-arrow-left" />
+          <span> Go Back Home</span>
+        </RouterLink>
       </div>
     </section>
 
@@ -247,7 +252,7 @@ const teamGrid = ref(null)
 .about-hero .logo-link {
   text-decoration: none;
   color: inherit;
-  font-size: 2rem;
+  font-size: 1.7rem;
   font-weight: bold;
   transition: color 0.3s ease;
 }
@@ -332,10 +337,62 @@ const teamGrid = ref(null)
   }
 }
 
+.hero-content h2.about-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  position: relative;
+  display: inline-block;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.hero-content h2.about-title::after {
+  content: '';
+  position: absolute;
+  bottom: -15px; /* Adjust this value based on your needs */
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 100%;
+  height: 3px;
+  background: white;
+  transition: transform 0.5s ease;
+  transform-origin: center;
+}
+
+.hero-content h2.about-title:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
 .hero-subtitle {
   font-size: 1.5rem;
   color: #cedadf;
   letter-spacing: 2px;
+}
+
+.hero-content .home-button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  margin-top: 2rem;
+}
+.hero-content .home-button:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  color: #fff;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.hero-description p {
+  margin-bottom: 1rem;
 }
 
 /* Mission Section */

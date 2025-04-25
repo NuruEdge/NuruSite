@@ -342,15 +342,6 @@ onMounted(() => {
   .hero-description {
     font-size: 1.5rem;
   }
-  .hero-buttons {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .btn {
-    width: 100%;
-    padding: 12px;
-    font-size: 1rem;
-  }
 
   .hero-description {
     font-size: 1.2rem;
@@ -363,6 +354,16 @@ onMounted(() => {
   }
 
   .hero-description {
+    font-size: 1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .btn {
+    width: 100%;
+    padding: 12px;
     font-size: 1rem;
   }
 

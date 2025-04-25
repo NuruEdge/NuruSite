@@ -1,33 +1,30 @@
-<script setup>
-import { RouterLink } from 'vue-router'
-</script>
+<script setup></script>
 
 <template>
   <!-- Blog Preview -->
-  <section class="blog-section">
+  <section class="blog-section" id="blog">
     <div class="container">
       <div class="section-header">
         <h2>Latest Insights</h2>
-        <RouterLink to="/blog" class="view-all">View All →</RouterLink>
       </div>
       <div class="blog-grid">
-        <RouterLink to="/blog/post-1" class="blog-card">
+        <div class="blog-card">
           <div class="blog-meta">
             <span class="category">Design</span>
             <span class="date">Mar 15, 2024</span>
           </div>
           <h3>Future of Web Design in 2024</h3>
           <p>Exploring emerging trends in modern web design practices...</p>
-        </RouterLink>
+        </div>
 
-        <RouterLink to="/blog/post-2" class="blog-card">
+        <div class="blog-card">
           <div class="blog-meta">
             <span class="category">Technology</span>
             <span class="date">Mar 12, 2024</span>
           </div>
           <h3>AI in Modern Development</h3>
           <p>How artificial intelligence is shaping software development...</p>
-        </RouterLink>
+        </div>
       </div>
     </div>
   </section>
