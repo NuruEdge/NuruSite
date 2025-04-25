@@ -1,9 +1,27 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 
+const router = useRouter()
+const route = useRoute()
 const isActive = ref(false)
 const isMobile = ref(false)
+
+const handleSectionLink = (hash) => {
+  isActive.value = false
+  if (route.path === '/') {
+    // If already on homepage, scroll to section
+    const section = document.getElementById(hash)
+    if (section) {
+      const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 0
+      const top = section.offsetTop - navbarHeight
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+  } else {
+    // Navigate to homepage with hash
+    router.push({ path: '/', hash: `#${hash}` })
+  }
+}
 
 const toggleMenu = () => {
   isActive.value = !isActive.value
@@ -30,9 +48,15 @@ onBeforeUnmount(() => {
     <ul class="nav-links" :class="{ active: isActive }">
       <li><RouterLink to="/" @click="isActive = false">Home</RouterLink></li>
       <li><RouterLink to="/about" @click="isActive = false">About</RouterLink></li>
-      <li><a href="#contact" @click="isActive = false">Contact</a></li>
-      <li><RouterLink to="/services" @click="isActive = false">Services</RouterLink></li>
-      <li><a href="#blog" @click="isActive = false">Blog</a></li>
+      <li>
+        <a href="#contact" @click.prevent="handleSectionLink('contact')"> Contact </a>
+      </li>
+      <li>
+        <a href="#services" @click.prevent="handleSectionLink('services')"> Services </a>
+      </li>
+      <li>
+        <a href="#blog" @click.prevent="handleSectionLink('blog')"> Blog </a>
+      </li>
       <li><RouterLink to="/projects" @click="isActive = false">Projects</RouterLink></li>
     </ul>
 
