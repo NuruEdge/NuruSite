@@ -53,7 +53,6 @@ h2 {
 /* Services Section */
 .services-section {
   padding: 6rem 0;
-  background: #f8f9fa;
 }
 
 .services-grid {
@@ -93,5 +92,26 @@ h2 {
 .service-card p {
   color: #636e72;
   line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 2rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .service-card {
+    padding: 1.5rem;
+  }
 }
 </style>

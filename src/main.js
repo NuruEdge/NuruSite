@@ -9,9 +9,32 @@ import App from './App.vue'
 import router from './router'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faArrowRight, faBriefcase, faCode, faPaintBrush } from '@fortawesome/free-solid-svg-icons'
+import {
+  faArrowRight,
+  faBars,
+  faBriefcase,
+  faCode,
+  faEnvelope,
+  faMapMarkerAlt,
+  faPaintBrush,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons'
+import { faInstagram, faLinkedin, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
 
-library.add(faBriefcase, faPaintBrush, faCode, faArrowRight)
+library.add(
+  faBriefcase,
+  faPaintBrush,
+  faCode,
+  faArrowRight,
+  faTwitter,
+  faLinkedin,
+  faInstagram,
+  faMapMarkerAlt,
+  faEnvelope,
+  faWhatsapp,
+  faBars,
+  faXmark,
+)
 
 const app = createApp(App)
 

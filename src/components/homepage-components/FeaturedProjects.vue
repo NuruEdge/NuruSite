@@ -150,7 +150,6 @@ h2::after {
 
 .projects-section {
   padding: 6rem 0;
-  background-color: var(--background);
 }
 
 .projects-grid {

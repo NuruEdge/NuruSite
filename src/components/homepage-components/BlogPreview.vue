@@ -49,7 +49,6 @@ h2 {
 
 .blog-section {
   padding: 6rem 0;
-  background: #f8f9fa;
 }
 
 .section-header {
@@ -105,5 +104,32 @@ h2 {
 .blog-card p {
   color: #636e72;
   line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 2rem;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .blog-card {
+    padding: 1.5rem;
+  }
 }
 </style>

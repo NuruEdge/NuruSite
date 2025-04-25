@@ -59,4 +59,34 @@ h2 {
 .cta-button:hover {
   background: #0056b3;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 2rem;
+  }
+
+  .cta-section {
+    padding: 4rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 1rem;
+  }
+  .cta-section {
+    padding: 4rem 0;
+  }
+  .cta-button {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+  }
+  h2 {
+    font-size: 1.75rem;
+  }
+  p {
+    font-size: 1rem;
+  }
+}
 </style>

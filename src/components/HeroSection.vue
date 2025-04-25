@@ -211,7 +211,7 @@ onMounted(() => {
   position: absolute;
   bottom: -10px;
   left: 0;
-  width: 100%;
+  width: 80%;
   height: 3px;
   background: white;
   transform: scaleX(0);
@@ -322,5 +322,53 @@ onMounted(() => {
 
 .btn-secondary:hover {
   background-color: #5a6268;
+}
+
+@media (max-width: 768px) {
+  .hero-background {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  .hero-content {
+    margin-left: 2rem;
+    max-width: 90%;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  .hero-title::after {
+    width: 80%;
+  }
+  .hero-description {
+    font-size: 1.5rem;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .hero-description {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
 }
 </style>

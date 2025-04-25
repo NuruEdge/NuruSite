@@ -22,10 +22,11 @@ const toggleMenu = () => {
       <li><RouterLink to="/projects" @click="isActive = false">Projects</RouterLink></li>
     </ul>
 
-    <div class="hamburger" :class="{ active: isActive }" @click="toggleMenu">
-      <span></span>
-      <span></span>
-      <span></span>
+    <div v-if="!isActive">
+      <font-awesome-icon icon="fa-solid fa-bars" class="hamburger" @click="toggleMenu" />
+    </div>
+    <div v-else>
+      <font-awesome-icon icon="fa-solid fa-xmark" class="hamburger" @click="toggleMenu" />
     </div>
   </nav>
 </template>
@@ -86,6 +87,9 @@ const toggleMenu = () => {
   display: none;
   flex-direction: column;
   cursor: pointer;
+  font-size: 1.5rem;
+  margin-left: auto;
+  padding: 0.5rem;
 }
 
 .hamburger span {
@@ -97,14 +101,21 @@ const toggleMenu = () => {
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 2rem;
+  }
+  .logo {
+    font-size: 1.5rem;
+    text-shadow: none;
+  }
   .nav-links {
     display: none;
     flex-direction: column;
     position: absolute;
     top: 60px;
-    right: 0;
+    right: 1rem;
     background-color: #333;
-    width: 100%;
+    width: 60%;
     padding: 1rem;
   }
 
@@ -115,58 +126,5 @@ const toggleMenu = () => {
   .hamburger {
     display: flex;
   }
-}
-.hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-.hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
-}
-
-.hamburger.active + .nav-links {
-  display: flex;
-}
-.hamburger.active + .nav-links li {
-  margin: 0.5rem 0;
-}
-
-.hamburger.active + .nav-links a {
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-.hamburger.active + .nav-links a:hover {
-  background-color: #555;
-}
-
-.hamburger.active + .nav-links a:active {
-  background-color: #777;
-}
-.hamburger.active + .nav-links a:focus {
-  outline: none;
-  box-shadow:
-    0 0 0 2px #fff,
-    0 0 0 4px #333;
-}
-.hamburger.active + .nav-links a:focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 2px #fff,
-    0 0 0 4px #333;
-}
-.hamburger.active + .nav-links a:focus-visible:hover {
-  background-color: #555;
-}
-.hamburger.active + .nav-links a:focus-visible:active {
-  background-color: #777;
-}
-.hamburger.active + .nav-links a:focus-visible:focus {
-  outline: none;
-  box-shadow:
-    0 0 0 2px #fff,
-    0 0 0 4px #333;
 }
 </style>

@@ -29,7 +29,6 @@
 <style lang="css" scoped>
 .impact-statistics {
   width: 100%;
-  background-color: #f2f2f24d; /* Changed to a lighter shade */
   padding: 4rem 0; /* Increased padding */
   text-align: center;
   color: #333;
@@ -52,11 +51,16 @@
   content: '';
   position: absolute;
   bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
+  left: 6%;
+  transform: scaleX(0);
+  transition: transform 0.5s ease;
+  width: 80%;
   height: 3px;
   background-color: #007bff;
+}
+
+.impact-statistics h2:hover::after {
+  transform: scaleX(1);
 }
 
 .statistics-grid {
