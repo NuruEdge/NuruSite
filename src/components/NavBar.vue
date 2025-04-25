@@ -1,12 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { RouterLink } from 'vue-router'
 
 const isActive = ref(false)
+const isMobile = ref(false)
 
 const toggleMenu = () => {
   isActive.value = !isActive.value
 }
+
+const checkMobile = () => {
+  isMobile.value = window.innerWidth <= 768
+}
+
+onMounted(() => {
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', checkMobile)
+})
 </script>
 
 <template>
@@ -22,11 +36,14 @@ const toggleMenu = () => {
       <li><RouterLink to="/projects" @click="isActive = false">Projects</RouterLink></li>
     </ul>
 
-    <div v-if="!isActive">
-      <font-awesome-icon icon="fa-solid fa-bars" class="hamburger" @click="toggleMenu" />
-    </div>
-    <div v-else>
-      <font-awesome-icon icon="fa-solid fa-xmark" class="hamburger" @click="toggleMenu" />
+    <div v-if="isMobile" class="hamburger-container">
+      <font-awesome-icon
+        v-if="!isActive"
+        icon="fa-solid fa-bars"
+        class="hamburger"
+        @click="toggleMenu"
+      />
+      <font-awesome-icon v-else icon="fa-solid fa-xmark" class="hamburger" @click="toggleMenu" />
     </div>
   </nav>
 </template>
@@ -41,33 +58,31 @@ const toggleMenu = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem 1rem 5rem;
+  padding: 1rem 5rem;
   background-color: transparent;
+  border-radius: 0 0 20px 0;
+  box-sizing: border-box;
   color: white;
   z-index: 1000;
-  transition: background-color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    padding 0.3s ease;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 10px 10px;
 }
 
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-  color: white;
-  text-decoration: none;
   transition: color 0.3s ease;
-  cursor: pointer;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
   gap: 1.5rem;
-}
-
-.nav-links li {
-  display: inline;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-links a {
@@ -80,51 +95,62 @@ const toggleMenu = () => {
 }
 
 .nav-links a:hover {
-  background-color: #555;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.hamburger-container {
+  display: none;
 }
 
 .hamburger {
-  display: none;
-  flex-direction: column;
   cursor: pointer;
   font-size: 1.5rem;
-  margin-left: auto;
-  padding: 0.5rem;
+  transition: transform 0.3s ease;
 }
 
-.hamburger span {
-  width: 25px;
-  height: 3px;
-  background-color: white;
-  margin: 4px 0;
-  transition: all 0.3s ease;
+.hamburger:hover {
+  transform: scale(1.1);
 }
 
 @media (max-width: 768px) {
   .navbar {
     padding: 1rem 2rem;
   }
-  .logo {
-    font-size: 1.5rem;
-    text-shadow: none;
-  }
+
   .nav-links {
     display: none;
     flex-direction: column;
     position: absolute;
     top: 60px;
-    right: 1rem;
-    background-color: #333;
-    width: 60%;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    width: 100%;
     padding: 1rem;
+    text-align: center;
   }
 
   .nav-links.active {
     display: flex;
   }
 
-  .hamburger {
-    display: flex;
+  .hamburger-container {
+    display: block;
+    z-index: 1001;
+  }
+
+  .nav-links a {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
   }
 }
 </style>

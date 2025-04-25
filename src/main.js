@@ -14,9 +14,14 @@ import {
   faBars,
   faBriefcase,
   faCode,
+  faComments,
   faEnvelope,
+  faLeaf,
+  faLightbulb,
   faMapMarkerAlt,
   faPaintBrush,
+  faShieldAlt,
+  faUsers,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons'
 import { faInstagram, faLinkedin, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons'
@@ -34,6 +39,11 @@ library.add(
   faWhatsapp,
   faBars,
   faXmark,
+  faUsers,
+  faComments,
+  faLeaf,
+  faLightbulb,
+  faShieldAlt,
 )
 
 const app = createApp(App)

@@ -115,7 +115,7 @@ onUnmounted(() => {
 .content-container {
   position: relative;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.65);
   border-radius: 20px 20px 0 0;
   margin-top: -20px;
   padding-top: 20px;
