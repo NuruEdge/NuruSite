@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 
 import defaultPfp from '@/assets/images/team/default_pfp.jpg'
 import mumiaPfp from '@/assets/images/team/mumia-derick.png'
+import amianiPfp from '@/assets/images/team/amiani.jpeg'
 import FooterSection from '@/components/FooterSection.vue'
 
 const missionVisible = ref(false)
@@ -89,7 +90,7 @@ const team = ref([
   {
     name: 'Asuza Frankline',
     role: 'Tech Lead',
-    image: defaultPfp,
+    image: amianiPfp,
     socials: [
       { icon: 'fa-brands fa-linkedin', link: '#' },
       { icon: 'fa-brands fa-twitter', link: '#' },
