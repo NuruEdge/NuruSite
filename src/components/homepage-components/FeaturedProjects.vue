@@ -65,10 +65,11 @@ onMounted(() => {
       </div>
 
       <div class="projects-grid">
-        <RouterLink
+        <a
           v-for="project in projects"
           :key="project.id"
-          :to="project.link"
+          :href="project.link"
+          :title="project.title"
           target="_blank"
           class="project-card"
           :class="{ show: isVisible }"
@@ -93,7 +94,7 @@ onMounted(() => {
               <font-awesome-icon icon="fa-solid fa-arrow-right" style="margin-left: 0.5rem" />
             </div>
           </div>
-        </RouterLink>
+        </a>
       </div>
 
       <div class="view-all-container">

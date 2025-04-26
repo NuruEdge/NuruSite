@@ -51,7 +51,7 @@ onBeforeUnmount(() => {
   <nav class="navbar">
     <div class="logo">
       <RouterLink to="/" @click="isActive = false">
-        <h3>NuruEdge</h3>
+        <h1>NuruEdge</h1>
       </RouterLink>
     </div>
 
@@ -104,10 +104,12 @@ onBeforeUnmount(() => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
+.logo h1 {
   font-size: 1.5rem;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+  color: white;
+  text-decoration: none;
   transition: color 0.3s ease;
 }
 

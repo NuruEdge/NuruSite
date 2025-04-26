@@ -14,6 +14,8 @@ import {
   faArrowRight,
   faBars,
   faBriefcase,
+  faChevronDown,
+  faChevronUp,
   faCode,
   faComments,
   faEnvelope,
@@ -46,6 +48,8 @@ library.add(
   faLightbulb,
   faShieldAlt,
   faArrowLeft,
+  faChevronUp,
+  faChevronDown,
 )
 
 const app = createApp(App)

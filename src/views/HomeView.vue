@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import HeroSection from '@/components/HeroSection.vue'
 import BlogPreview from '@/components/homepage-components/BlogPreview.vue'
 import CtaSection from '@/components/homepage-components/CtaSection.vue'
@@ -9,6 +9,8 @@ import ServicesSection from '@/components/homepage-components/ServicesSection.vu
 import HomepageImg from '@/assets/images/background/homepage.jpg'
 import ContactSection from '@/components/homepage-components/ContactSection.vue'
 import FooterSection from '@/components/FooterSection.vue'
+import FaqsSection from '@/components/FaqsSection.vue'
+import { useFaqsStore } from '@/stores/faqs'
 
 // Background scaling effect variables
 const backgroundScale = ref(1)
@@ -43,6 +45,11 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
+
+const faqsStore = useFaqsStore()
+const homepageFaqs = computed(() => {
+  return faqsStore.faqs.filter((faq) => faq.category === 'General')
+})
 </script>
 
 <template>
@@ -68,6 +75,7 @@ onUnmounted(() => {
       <BlogPreview />
       <CtaSection />
       <ContactSection />
+      <FaqsSection :faqs="homepageFaqs" category="General" :show-limit="3" />
     </div>
   </main>
   <FooterSection />

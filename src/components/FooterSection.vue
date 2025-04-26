@@ -50,7 +50,7 @@ const handleSectionLink = (hash) => {
             <h4>Resources</h4>
             <a href="#blog" @click.prevent="handleSectionLink('blog')"> Blog </a>
             <a href="#contact" @click.prevent="handleSectionLink('contact')"> Contact </a>
-            <RouterLink to="/faq">FAQ</RouterLink>
+            <RouterLink to="/faqs">FAQs</RouterLink>
           </div>
           <div class="link-group">
             <h4>Legal</h4>
