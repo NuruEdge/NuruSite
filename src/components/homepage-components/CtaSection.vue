@@ -1,4 +1,34 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+const isActive = ref(false)
+const isMobile = ref(false)
+
+const handleSectionLink = (hash) => {
+  isActive.value = false
+  if (route.path === '/') {
+    // If already on homepage, scroll to section
+    const section = document.getElementById(hash)
+    if (section) {
+      let top = section.offsetTop + section.clientHeight
+      const offset = 20
+      if (isMobile.value) {
+        top -= offset
+      } else {
+        top -= offset * 2
+      }
+      // Scroll to the section
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+  } else {
+    // Navigate to homepage with hash
+    router.push({ path: '/', hash: `#${hash}` })
+  }
+}
+</script>
 
 <template>
   <!-- CTA Section -->
@@ -6,7 +36,9 @@
     <div class="container">
       <h2>Ready to Start Your Project?</h2>
       <p>Let's create something amazing together</p>
-      <a href="#contact" class="cta-button">Get in Touch</a>
+      <a href="#contact" @click.prevent="handleSectionLink('contact')" class="cta-button"
+        >Get in Touch</a
+      >
     </div>
   </section>
 </template>

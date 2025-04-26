@@ -91,6 +91,7 @@ const toggleFAQ = (index) => {
   font-size: 2.5rem;
   margin-bottom: 3rem;
   color: #2d3436;
+  font-weight: 500;
 }
 
 .faqs-list {
@@ -182,6 +183,9 @@ const toggleFAQ = (index) => {
 }
 
 @media (max-width: 768px) {
+  .faqs-section {
+    padding: 2rem 1rem;
+  }
   .section-title {
     font-size: 2rem;
   }

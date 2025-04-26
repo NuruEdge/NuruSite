@@ -349,6 +349,10 @@ onMounted(() => {
 }
 
 @media (max-width: 480px) {
+  .hero-content {
+    align-items: center;
+    justify-content: center;
+  }
   .hero-title {
     font-size: 2rem;
   }
