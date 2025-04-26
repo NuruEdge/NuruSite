@@ -1,15 +1,8 @@
 <script setup>
 import NavBar from './NavBar.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-// Preload all images
-const preloadImages = (urls) => {
-  urls.forEach((url) => {
-    new Image().src = url
-  })
-}
-
-// Fix 1: Use relative paths for assets or import them directly
+// Import images directly
 import heroBackground1 from '@/assets/hero-background-1.jpg'
 import heroBackground2 from '@/assets/hero-background-2.jpg'
 import heroBackground3 from '@/assets/hero-background-3.jpg'
@@ -18,7 +11,6 @@ import heroBackground5 from '@/assets/hero-background-5.jpg'
 import heroBackground6 from '@/assets/hero-background-6.jpg'
 import heroBackground7 from '@/assets/hero-background-7.png'
 import heroBackground8 from '@/assets/hero-background-8.jpg'
-import { onBeforeUnmount } from 'vue'
 
 const backgrounds = [
   heroBackground1,
@@ -31,21 +23,54 @@ const backgrounds = [
   heroBackground8,
 ]
 
+// Preload all images
+const preloadImages = (urls) => {
+  urls.forEach((url) => {
+    const img = new Image()
+    img.src = url
+  })
+}
+
+const currentBgIndex = ref(0)
+const nextBgIndex = ref(1)
+const activeBg = ref(0)
+
+const isVisible = ref(true)
+const isTransitioning = ref(false)
+let intervalId = null
+let observer = null
+
 // Preload images on mount
 onMounted(() => {
   preloadImages(backgrounds)
 })
 
-const currentBg = ref(0)
-const isVisible = ref(true)
-let intervalId = null
-let observer = null
-
+// Handle background transition
 const animateBackground = () => {
-  currentBg.value = (currentBg.value + 1) % backgrounds.length
+  if (isTransitioning.value) return // Prevent transitions while one is in progress
+
+  isTransitioning.value = true
+
+  // Toggle active background
+  activeBg.value = activeBg.value === 0 ? 1 : 0
+
+  // Update indices for the next transition
+  if (activeBg.value === 0) {
+    nextBgIndex.value = (currentBgIndex.value + 1) % backgrounds.length
+  } else {
+    currentBgIndex.value = (nextBgIndex.value + 1) % backgrounds.length
+  }
+
+  // Reset transition flag after animation completes
+  setTimeout(() => {
+    isTransitioning.value = false
+  }, 2000)
 }
 
 onMounted(() => {
+  // Preload images first
+  preloadImages(backgrounds)
+
   const heroElement = document.querySelector('#hero')
   if (heroElement) {
     observer = new IntersectionObserver(
@@ -55,10 +80,13 @@ onMounted(() => {
 
           if (entry.isIntersecting) {
             // Start the background animation when the hero section is in view
-            intervalId = setInterval(animateBackground, 8000)
+            if (!intervalId) {
+              intervalId = setInterval(animateBackground, 8000)
+            }
           } else {
             // Stop the background animation when the hero section is out of view
             clearInterval(intervalId)
+            intervalId = null
           }
         })
       },
@@ -71,21 +99,34 @@ onMounted(() => {
     observer.observe(heroElement)
   }
 
+  // Ensure hero is visible initially
   requestAnimationFrame(() => {
     isVisible.value = true
   })
+})
 
-  onBeforeUnmount(() => {
-    clearInterval(intervalId)
-    if (observer) observer.disconnect()
-  })
+onBeforeUnmount(() => {
+  clearInterval(intervalId)
+  if (observer) observer.disconnect()
 })
 </script>
 
 <template>
   <section class="hero" id="hero">
     <div class="hero-background"></div>
-    <div class="hero-overlay" :style="{ backgroundImage: `url(${backgrounds[currentBg]})` }"></div>
+    <!-- First background layer -->
+    <div
+      class="hero-overlay"
+      :class="{ visible: activeBg === 0, hidden: activeBg === 1 }"
+      :style="{ backgroundImage: `url(${backgrounds[currentBgIndex]})` }"
+    ></div>
+
+    <!-- Second background layer -->
+    <div
+      class="hero-overlay"
+      :class="{ visible: activeBg === 1, hidden: activeBg === 0 }"
+      :style="{ backgroundImage: `url(${backgrounds[nextBgIndex]})` }"
+    ></div>
     <NavBar />
 
     <div class="hero-content">
@@ -148,11 +189,23 @@ onMounted(() => {
   background-size: cover;
   background-position: center;
   z-index: 0;
+  transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
   animation: panZoom 30s linear infinite;
   transform: translateZ(0);
-  will-change: transform, background-image;
+  will-change: transform, opacity;
   backface-visibility: hidden;
   image-rendering: -webkit-optimize-contrast;
+}
+
+/* Cross-fade classes */
+.hero-overlay.visible {
+  opacity: 1;
+  z-index: 0;
+}
+
+.hero-overlay.hidden {
+  opacity: 0;
+  z-index: -1;
 }
 
 /* Background Animations */
@@ -352,7 +405,6 @@ onMounted(() => {
   }
   .hero-description {
     font-size: 1.5rem;
-    text-align: center;
   }
 
   .hero-description {
@@ -371,6 +423,7 @@ onMounted(() => {
 
   .hero-description {
     font-size: 1rem;
+    text-align: center;
   }
 
   .hero-buttons {
