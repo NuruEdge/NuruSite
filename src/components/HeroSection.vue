@@ -196,13 +196,13 @@ onBeforeUnmount(() => {
     opacity 2s cubic-bezier(0.4, 0, 0.2, 1),
     transform 30s linear;
   animation: panZoom 30s linear infinite;
-  transform: scale(1);
+  transform: translateY(100px);
   backface-visibility: hidden;
   will-change: transform, opacity;
 }
 
 .hero-overlay.active {
-  opacity: 0.5;
+  opacity: 1;
   z-index: 0;
   animation: panZoom 30s linear infinite;
 }
@@ -211,10 +211,13 @@ onBeforeUnmount(() => {
   opacity: 0;
   z-index: -1;
 }
+
 .hero-overlay.next {
-  opacity: 0.5;
-  z-index: 1;
+  opacity: 0.4;
+  z-index: -1;
+  animation: panZoom 30s linear infinite;
 }
+
 /* Background Animations */
 @keyframes panZoom {
   0% {
