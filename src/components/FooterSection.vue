@@ -1,23 +1,55 @@
+<script setup>
+import { ref } from 'vue'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+const isActive = ref(false)
+const isMobile = ref(false)
+
+const handleSectionLink = (hash) => {
+  isActive.value = false
+  if (route.path === '/') {
+    // If already on homepage, scroll to section
+    const section = document.getElementById(hash)
+    if (section) {
+      let top = section.offsetTop + section.clientHeight
+      const offset = 20
+      if (isMobile.value) {
+        top -= offset
+      } else {
+        top -= offset * 2
+      }
+      // Scroll to the section
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+  } else {
+    // Navigate to homepage with hash
+    router.push({ path: '/', hash: `#${hash}` })
+  }
+}
+</script>
+
 <template>
   <!-- Footer -->
   <footer class="main-footer">
     <div class="container">
       <div class="footer-content">
         <div class="footer-brand">
-          <h3>Nuru Edge</h3>
+          <RouterLink to="/"><h3>NuruEdge</h3></RouterLink>
           <p>Innovating digital experiences</p>
         </div>
         <div class="footer-links">
           <div class="link-group">
             <h4>Company</h4>
             <RouterLink to="/about">About</RouterLink>
-            <RouterLink to="/services">Services</RouterLink>
+            <a href="#services" @click.prevent="handleSectionLink('services')"> Services </a>
             <RouterLink to="/projects">Projects</RouterLink>
           </div>
           <div class="link-group">
             <h4>Resources</h4>
-            <RouterLink to="/blog">Blog</RouterLink>
-            <RouterLink to="/contact">Contact</RouterLink>
+            <a href="#blog" @click.prevent="handleSectionLink('blog')"> Blog </a>
+            <a href="#contact" @click.prevent="handleSectionLink('contact')"> Contact </a>
             <RouterLink to="/faq">FAQ</RouterLink>
           </div>
           <div class="link-group">

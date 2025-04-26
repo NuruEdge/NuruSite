@@ -5,6 +5,7 @@ import defaultPfp from '@/assets/images/team/default_pfp.jpg'
 import mumiaPfp from '@/assets/images/team/mumia-derick.png'
 import amianiPfp from '@/assets/images/team/amiani.jpeg'
 import FooterSection from '@/components/FooterSection.vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const missionVisible = ref(false)
 const storyVisible = ref(false)
@@ -30,6 +31,33 @@ onMounted(() => {
   createObserver(storyVisible, '.story-section')
   createObserver(teamVisible, '.team-section')
 })
+
+const router = useRouter()
+const route = useRoute()
+const isActive = ref(false)
+const isMobile = ref(false)
+
+const handleSectionLink = (hash) => {
+  isActive.value = false
+  if (route.path === '/') {
+    // If already on homepage, scroll to section
+    const section = document.getElementById(hash)
+    if (section) {
+      let top = section.offsetTop + section.clientHeight
+      const offset = 20
+      if (isMobile.value) {
+        top -= offset
+      } else {
+        top -= offset * 2
+      }
+      // Scroll to the section
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+  } else {
+    // Navigate to homepage with hash
+    router.push({ path: '/', hash: `#${hash}` })
+  }
+}
 
 const values = ref([
   {
@@ -176,7 +204,9 @@ const teamGrid = ref(null)
               alongside the digital landscape, mastering new technologies while maintaining our core
               values of integrity and innovation.
             </p>
-            <RouterLink to="/contact" class="cta-button"> Get Started → </RouterLink>
+            <a href="#contact" class="cta-button" @click.prevent="handleSectionLink('contact')">
+              Get Started →
+            </a>
           </div>
           <div class="values-card">
             <h3>Core Values</h3>
