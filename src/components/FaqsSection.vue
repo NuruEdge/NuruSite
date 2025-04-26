@@ -82,7 +82,8 @@ const toggleFAQ = (index) => {
 <style scoped>
 .faqs-section {
   padding: 4rem 0;
-  background: #f8f9fa;
+  background: transparent;
+  font-family: 'Jost', sans-serif;
 }
 
 .section-title {
