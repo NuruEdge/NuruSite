@@ -11,6 +11,7 @@ import heroBackground5 from '@/assets/hero-background-5.jpg'
 import heroBackground6 from '@/assets/hero-background-6.jpg'
 import heroBackground7 from '@/assets/hero-background-7.png'
 import heroBackground8 from '@/assets/hero-background-8.jpg'
+import { useRoute, useRouter } from 'vue-router'
 
 const backgrounds = [
   heroBackground1,
@@ -111,6 +112,33 @@ onBeforeUnmount(() => {
   clearInterval(intervalId)
   observer?.disconnect()
 })
+
+const router = useRouter()
+const route = useRoute()
+const isActive = ref(false)
+const isMobile = ref(false)
+
+const handleSectionLink = (hash) => {
+  isActive.value = false
+  if (route.path === '/') {
+    // If already on homepage, scroll to section
+    const section = document.getElementById(hash)
+    if (section) {
+      let top = section.offsetTop + section.clientHeight
+      const offset = 20
+      if (isMobile.value) {
+        top -= offset
+      } else {
+        top -= offset * 2
+      }
+      // Scroll to the section
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+  } else {
+    // Navigate to homepage with hash
+    router.push({ path: '/', hash: `#${hash}` })
+  }
+}
 </script>
 
 <template>
@@ -138,8 +166,10 @@ onBeforeUnmount(() => {
         Where we strive and ensure we provide products and services of the best quality.
       </p>
       <div class="hero-buttons" :class="{ 'button-enter': isVisible }">
-        <button class="btn btn-primary">Get Started</button>
-        <button class="btn btn-secondary">Learn More</button>
+        <a href="#contact" class="btn btn-primary" @click="handleSectionLink('contact')"
+          >Get Started</a
+        >
+        <RouterLink to="/about" class="btn btn-secondary">Learn More</RouterLink>
       </div>
     </div>
   </section>
