@@ -163,10 +163,9 @@ onBeforeUnmount(() => {
     flex-direction: column;
     position: absolute;
     top: 60px;
-    left: 0;
-    right: 0;
+    right: 20px;
     background-color: rgba(0, 0, 0, 0.9);
-    width: 100%;
+    width: 60%;
     padding: 1rem;
     text-align: center;
   }
