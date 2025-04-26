@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router'
 
 <template>
   <!-- Services Section -->
-  <section class="services-section">
+  <section class="services-section" id="services">
     <div class="container">
       <h2>Our Services</h2>
       <div class="services-grid">

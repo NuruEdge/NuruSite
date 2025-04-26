@@ -13,8 +13,14 @@ const handleSectionLink = (hash) => {
     // If already on homepage, scroll to section
     const section = document.getElementById(hash)
     if (section) {
-      const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 0
-      const top = section.offsetTop - navbarHeight
+      let top = section.offsetTop + section.clientHeight
+      const offset = 20
+      if (isMobile.value) {
+        top -= offset
+      } else {
+        top -= offset * 2
+      }
+      // Scroll to the section
       window.scrollTo({ top, behavior: 'smooth' })
     }
   } else {
