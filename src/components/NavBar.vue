@@ -49,7 +49,11 @@ onBeforeUnmount(() => {
 
 <template>
   <nav class="navbar">
-    <div class="logo">NuruEdge</div>
+    <div class="logo">
+      <RouterLink to="/" @click="isActive = false">
+        <h3>NuruEdge</h3>
+      </RouterLink>
+    </div>
 
     <ul class="nav-links" :class="{ active: isActive }">
       <li><RouterLink to="/" @click="isActive = false">Home</RouterLink></li>
@@ -105,6 +109,11 @@ onBeforeUnmount(() => {
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
   transition: color 0.3s ease;
+}
+
+.logo:hover {
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
 }
 
 .nav-links {

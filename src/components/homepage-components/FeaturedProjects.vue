@@ -13,6 +13,7 @@ const projects = ref([
     category: 'Web Development',
     image: AirbnbImage,
     color: '#3498db',
+    link: 'https://github.com/muderick/airBnB',
   },
   {
     id: 3,
@@ -20,6 +21,7 @@ const projects = ref([
     category: 'Full Stack Development',
     image: ECommerceImage,
     color: '#9b59b6',
+    link: 'https://techcommerce.mudericks-projects.vercel.app/',
   },
   {
     id: 4,
@@ -27,6 +29,7 @@ const projects = ref([
     category: 'Mobile Development',
     image: MusicAppImage,
     color: '#e74c3c',
+    link: 'https://muderick.github.io/vueplayer/',
   },
 ])
 
@@ -65,7 +68,8 @@ onMounted(() => {
         <RouterLink
           v-for="project in projects"
           :key="project.id"
-          :to="`/projects/${project.id}`"
+          :to="project.link"
+          target="_blank"
           class="project-card"
           :class="{ show: isVisible }"
         >

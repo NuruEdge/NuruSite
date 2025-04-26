@@ -11,26 +11,26 @@
           <p>Have a project in mind or just want to say hello? We'd love to hear from you.</p>
           <div class="contact-details">
             <div class="detail-item location">
-              <a href="https://goo.gl/maps/4v5x6Z1g7kE2" class="icon">
+              <a href="https://goo.gl/maps/4v5x6Z1g7kE2" target="_blank" class="icon">
                 <font-awesome-icon icon="fa-solid fa-map-marker-alt" />
               </a>
-              <a href="https://goo.gl/maps/4v5x6Z1g7kE2">
+              <a href="https://goo.gl/maps/4v5x6Z1g7kE2" target="_blank">
                 <p>Location: Nairobi, Kenya</p>
               </a>
             </div>
             <div class="detail-item email">
-              <a href="mailto:nurruedge@gmail.com" class="icon">
+              <a href="mailto:nurruedge@gmail.com" target="_blank" class="icon">
                 <font-awesome-icon icon="fa-solid fa-envelope" />
               </a>
-              <a href="mailto:nurruedge@gmail.com">
+              <a href="mailto:nurruedge@gmail.com" target="_blank">
                 <p>Email Us</p>
               </a>
             </div>
             <div class="detail-item whatsapp">
-              <a href="https://wa.me/254748236790" class="icon">
+              <a href="https://wa.me/254748236790" target="_blank" class="icon">
                 <font-awesome-icon icon="fa-brands fa-whatsapp" />
               </a>
-              <a href="https://wa.me/254748236790">
+              <a href="https://wa.me/254748236790" target="_blank">
                 <p>Chat on WhatsApp</p>
               </a>
             </div>

@@ -169,16 +169,12 @@ const teamGrid = ref(null)
           </p>
           <div class="highlight-stats">
             <div class="stat-item">
-              <h3>250+</h3>
+              <h3>20+</h3>
               <p>Projects Delivered</p>
             </div>
             <div class="stat-item">
               <h3>98%</h3>
               <p>Client Satisfaction</p>
-            </div>
-            <div class="stat-item">
-              <h3>15+</h3>
-              <p>Global Awards</p>
             </div>
           </div>
         </div>

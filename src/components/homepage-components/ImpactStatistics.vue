@@ -6,20 +6,16 @@
       <h2>Impact Statistics</h2>
       <div class="statistics-grid">
         <div class="statistic-card">
-          <h3>100+</h3>
+          <h3>10+</h3>
           <p>Projects Completed</p>
         </div>
         <div class="statistic-card">
-          <h3>50+</h3>
+          <h3>5+</h3>
           <p>Countries Served</p>
         </div>
         <div class="statistic-card">
-          <h3>2000+</h3>
+          <h3>200+</h3>
           <p>Lives Impacted</p>
-        </div>
-        <div class="statistic-card">
-          <h3>10+</h3>
-          <p>Awards Won</p>
         </div>
       </div>
     </div>
