@@ -1,6 +1,4 @@
-<script setup>
-import { RouterLink } from 'vue-router'
-</script>
+<script setup></script>
 
 <template>
   <!-- CTA Section -->
@@ -8,7 +6,7 @@ import { RouterLink } from 'vue-router'
     <div class="container">
       <h2>Ready to Start Your Project?</h2>
       <p>Let's create something amazing together</p>
-      <RouterLink to="/contact" class="cta-button">Get in Touch</RouterLink>
+      <a href="#contact" class="cta-button">Get in Touch</a>
     </div>
   </section>
 </template>
