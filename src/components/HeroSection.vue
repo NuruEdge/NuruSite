@@ -23,12 +23,19 @@ const backgrounds = [
   heroBackground8,
 ]
 
-// Preload all images
+// Preload images with Promise
 const preloadImages = (urls) => {
-  urls.forEach((url) => {
-    const img = new Image()
-    img.src = url
-  })
+  return Promise.all(
+    urls.map(
+      (url) =>
+        new Promise((resolve) => {
+          const img = new Image()
+          img.src = url
+          img.onload = resolve
+          img.onerror = resolve
+        }),
+    ),
+  )
 }
 
 const currentBgIndex = ref(0)
@@ -39,11 +46,6 @@ const isVisible = ref(true)
 const isTransitioning = ref(false)
 let intervalId = null
 let observer = null
-
-// Preload images on mount
-onMounted(() => {
-  preloadImages(backgrounds)
-})
 
 // Handle background transition
 const animateBackground = () => {
@@ -67,9 +69,9 @@ const animateBackground = () => {
   }, 2000)
 }
 
-onMounted(() => {
+onMounted(async () => {
   // Preload images first
-  preloadImages(backgrounds)
+  await preloadImages(backgrounds)
 
   const heroElement = document.querySelector('#hero')
   if (heroElement) {
@@ -107,26 +109,27 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clearInterval(intervalId)
-  if (observer) observer.disconnect()
+  observer?.disconnect()
 })
 </script>
 
 <template>
   <section class="hero" id="hero">
     <div class="hero-background"></div>
-    <!-- First background layer -->
+    <!-- Current Background -->
     <div
       class="hero-overlay"
-      :class="{ visible: activeBg === 0, hidden: activeBg === 1 }"
+      :class="{ active: activeBg === 0, hidden: activeBg === 1 }"
       :style="{ backgroundImage: `url(${backgrounds[currentBgIndex]})` }"
     ></div>
 
-    <!-- Second background layer -->
+    <!-- Next Background -->
     <div
-      class="hero-overlay"
-      :class="{ visible: activeBg === 1, hidden: activeBg === 0 }"
+      class="hero-overlay next"
+      :class="{ active: activeBg === 1, hidden: activeBg === 0 }"
       :style="{ backgroundImage: `url(${backgrounds[nextBgIndex]})` }"
     ></div>
+
     <NavBar />
 
     <div class="hero-content">
@@ -189,25 +192,29 @@ onBeforeUnmount(() => {
   background-size: cover;
   background-position: center;
   z-index: 0;
-  transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    opacity 2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 30s linear;
   animation: panZoom 30s linear infinite;
-  transform: translateZ(0);
-  will-change: transform, opacity;
+  transform: scale(1);
   backface-visibility: hidden;
-  image-rendering: -webkit-optimize-contrast;
+  will-change: transform, opacity;
 }
 
-/* Cross-fade classes */
-.hero-overlay.visible {
-  opacity: 1;
+.hero-overlay.active {
+  opacity: 0.5;
   z-index: 0;
+  animation: panZoom 30s linear infinite;
 }
 
 .hero-overlay.hidden {
   opacity: 0;
   z-index: -1;
 }
-
+.hero-overlay.next {
+  opacity: 0.5;
+  z-index: 1;
+}
 /* Background Animations */
 @keyframes panZoom {
   0% {

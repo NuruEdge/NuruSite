@@ -60,6 +60,8 @@
 
 html {
   scroll-behavior: smooth;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 body {
@@ -91,6 +93,12 @@ body {
   -ms-overflow-style: scrollbar;
   -webkit-overflow-scrolling: touch;
   -webkit-tap-highlight-color: transparent;
+}
+
+img,
+.hero-overlay {
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
