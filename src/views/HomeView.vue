@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, computed } from 'vue'
 import HeroSection from '@/components/HeroSection.vue'
 import BlogPreview from '@/components/homepage-components/BlogPreview.vue'
 import CtaSection from '@/components/homepage-components/CtaSection.vue'
@@ -12,39 +12,8 @@ import FooterSection from '@/components/FooterSection.vue'
 import FaqsSection from '@/components/FaqsSection.vue'
 import { useFaqsStore } from '@/stores/faqs'
 
-// Background scaling effect variables
-const backgroundScale = ref(1)
-const backgroundOpacity = ref(0.1)
-// const backgroundBlur = ref(0)
+const backgroundOpacity = ref(0.15)
 const backgroundImage = ref(HomepageImg)
-
-// Function to update background effect on scroll
-const handleScroll = () => {
-  const scrollPosition = window.scrollY
-  const viewportHeight = window.innerHeight
-  const docHeight = document.body.offsetHeight
-
-  // Calculate scroll progress as percentage of total scrollable height
-  const scrollProgress = Math.min(scrollPosition / (docHeight - viewportHeight), 1)
-
-  // Scale background from 1 to 1.15 based on scroll position
-  backgroundScale.value = 1 + scrollProgress * 0.35
-
-  // Adjust opacity based on scroll (0.1 to 0.05)
-  backgroundOpacity.value = 0.2 - scrollProgress * 0.05
-
-  // Add slight blur effect as user scrolls
-  // backgroundBlur.value = scrollProgress * 2
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll)
-  handleScroll() // Initialize values
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
 
 const faqsStore = useFaqsStore()
 const homepageFaqs = computed(() => {
@@ -61,7 +30,6 @@ const homepageFaqs = computed(() => {
         class="background-image"
         :style="{
           backgroundImage: `url(${backgroundImage})`,
-          transform: `scale(${backgroundScale})`,
           opacity: backgroundOpacity,
         }"
       ></div>
@@ -112,11 +80,42 @@ const homepageFaqs = computed(() => {
   background-size: cover;
   background-position: center;
   transform-origin: center;
+  animation:
+    zoomPan 30s linear infinite,
+    float 8s infinite ease-in-out;
   transition:
     transform 0.1s ease-out,
     opacity 0.1s ease-out,
     filter 0.1s ease-out;
   will-change: transform, opacity, filter;
+}
+
+@keyframes zoomPan {
+  0% {
+    transform: scale(1) translate(0);
+  }
+  25% {
+    transform: scale(1.1) translate(5%, 3%);
+  }
+  50% {
+    transform: scale(1.05) translate(-4%, -2%);
+  }
+  75% {
+    transform: scale(1.15) translate(3%, 5%);
+  }
+  100% {
+    transform: scale(1) translate(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 /* Content Container */
