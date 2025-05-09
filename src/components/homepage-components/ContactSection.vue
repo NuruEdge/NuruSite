@@ -1,4 +1,43 @@
-<script setup></script>
+<script setup>
+import { reactive } from 'vue';
+import emailjs from '@emailjs/browser';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
+const formData = reactive({
+  name:'',
+  email:'',
+  message:''
+})
+
+emailjs.init(import.meta.env.VITE_EMAILJS_PUBLICKEY)
+
+const sendEmail = async() =>{
+  const templateParams = {
+    name:formData.name,
+    email:formData.email,
+    message:formData.message
+  }
+  try{
+    await emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICEKEY,  // Service Key
+      import.meta.env.VITE_EMAILJS_TEMPLATEKEY,  // Template Key
+      templateParams
+    );
+  
+    toast.success("Email sent successfully. We'll be in touch soon!")
+    formData.name = '';
+    formData.email = '';
+    formData.message = '';
+  }
+  catch(error){
+    toast.error("email not sent")
+  }
+}
+
+
+
+</script>
 
 <template>
   <!-- Contact Section -->
@@ -36,15 +75,15 @@
             </div>
           </div>
         </div>
-        <form class="contact-form">
+        <form @submit.prevent="sendEmail" class="contact-form">
           <div class="form-group">
-            <input type="text" placeholder="Name" required />
+            <input type="text" placeholder="Name" v-model="formData.name" required />
           </div>
           <div class="form-group">
-            <input type="email" placeholder="Email" required />
+            <input type="email" placeholder="Email" v-model="formData.email" required />
           </div>
           <div class="form-group">
-            <textarea placeholder="Message" rows="5" required></textarea>
+            <textarea placeholder="Message" rows="5" v-model="formData.message" required></textarea>
           </div>
           <button type="submit" class="submit-btn">Send Message</button>
         </form>
