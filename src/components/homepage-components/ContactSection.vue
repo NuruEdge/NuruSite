@@ -31,6 +31,7 @@ const sendEmail = async () => {
     formData.message = ''
   } catch (error) {
     toast.error('Email not sent. Try again later.')
+    console.error('Error sending email:', error)
   }
 }
 </script>
