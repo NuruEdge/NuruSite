@@ -520,9 +520,6 @@ const teamGrid = ref(null)
 
 .gallery-stack:hover .main-image {
   transform: translate(5%, 5%) scale(1.05);
-  box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.1);
   filter: brightness(1.1);
 }
 
