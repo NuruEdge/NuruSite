@@ -1,42 +1,38 @@
 <script setup>
-import { reactive } from 'vue';
-import emailjs from '@emailjs/browser';
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
+import { reactive } from 'vue'
+import emailjs from '@emailjs/browser'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 const formData = reactive({
-  name:'',
-  email:'',
-  message:''
+  name: '',
+  email: '',
+  message: '',
 })
 
 emailjs.init(import.meta.env.VITE_EMAILJS_PUBLICKEY)
 
-const sendEmail = async() =>{
+const sendEmail = async () => {
   const templateParams = {
-    name:formData.name,
-    email:formData.email,
-    message:formData.message
+    name: formData.name,
+    email: formData.email,
+    message: formData.message,
   }
-  try{
+  try {
     await emailjs.send(
-      import.meta.env.VITE_EMAILJS_SERVICEKEY,  // Service Key
-      import.meta.env.VITE_EMAILJS_TEMPLATEKEY,  // Template Key
-      templateParams
-    );
-  
+      import.meta.env.VITE_EMAILJS_SERVICEKEY, // Service Key
+      import.meta.env.VITE_EMAILJS_TEMPLATEKEY, // Template Key
+      templateParams,
+    )
+
     toast.success("Email sent successfully. We'll be in touch soon!")
-    formData.name = '';
-    formData.email = '';
-    formData.message = '';
-  }
-  catch(error){
-    toast.error("email not sent")
+    formData.name = ''
+    formData.email = ''
+    formData.message = ''
+  } catch (error) {
+    toast.error('Email not sent. Try again later.')
   }
 }
-
-
-
 </script>
 
 <template>
@@ -50,10 +46,21 @@ const sendEmail = async() =>{
           <p>Have a project in mind or just want to say hello? We'd love to hear from you.</p>
           <div class="contact-details">
             <div class="detail-item location">
-              <a href="https://goo.gl/maps/4v5x6Z1g7kE2" target="_blank" class="icon">
+              <a
+                href="https://www.google.com/maps/place/Nairobi,+Kenya/@-1.286389,36.817223,12z"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="icon"
+                aria-label="View location on Google Maps"
+              >
                 <font-awesome-icon icon="fa-solid fa-map-marker-alt" />
               </a>
-              <a href="https://goo.gl/maps/4v5x6Z1g7kE2" target="_blank">
+              <a
+                href="https://www.google.com/maps/place/Nairobi,+Kenya/@-1.286389,36.817223,12z"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="location-link"
+              >
                 <p>Location: Nairobi, Kenya</p>
               </a>
             </div>
@@ -142,6 +149,15 @@ h3::before {
   font-size: 2rem;
   margin-bottom: 1.5rem;
   color: #2d3436;
+}
+
+.location-link p {
+  transition: color 0.3s ease;
+}
+
+.location-link:hover p {
+  color: #3b82f6;
+  text-decoration: underline;
 }
 
 .contact-info p {

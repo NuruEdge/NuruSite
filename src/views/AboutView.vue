@@ -4,8 +4,10 @@ import { ref, onMounted } from 'vue'
 import defaultPfp from '@/assets/images/team/default_pfp.jpg'
 import mumiaPfp from '@/assets/images/team/mumia-derick.png'
 import amianiPfp from '@/assets/images/team/amiani.jpeg'
+import amaniPfp from '@/assets/images/team/amani.jpeg'
 import FooterSection from '@/components/FooterSection.vue'
 import { useRoute, useRouter } from 'vue-router'
+import NavBar from '@/components/NavBar.vue'
 
 const missionVisible = ref(false)
 const storyVisible = ref(false)
@@ -100,7 +102,7 @@ const team = ref([
   {
     name: 'Amani Rashid',
     role: 'Cloud Engineer',
-    image: defaultPfp,
+    image: amaniPfp,
     socials: [
       { icon: 'fa-brands fa-linkedin', link: '#' },
       { icon: 'fa-brands fa-twitter', link: '#' },
@@ -143,8 +145,8 @@ const teamGrid = ref(null)
     <!-- Animated Hero Section -->
     <section class="about-hero">
       <div class="hero-overlay"></div>
-      <div class="logo">
-        <RouterLink to="/" class="logo-link"> NuruEdge </RouterLink>
+      <div class="navbar">
+        <NavBar />
       </div>
       <div class="hero-content">
         <h2 class="about-title">About Us</h2>
@@ -267,23 +269,12 @@ const teamGrid = ref(null)
   padding: 2rem;
 }
 
-.about-hero .logo {
+.navbar {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  color: #fff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-  transition: color 0.3s ease;
-}
-.about-hero .logo-link {
-  text-decoration: none;
-  color: inherit;
-  font-size: 1.7rem;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-.about-hero .logo-link:hover {
-  color: #007bff;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
 }
 
 .about-hero::before {

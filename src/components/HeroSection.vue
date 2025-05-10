@@ -1,27 +1,23 @@
 <script setup>
 import NavBar from './NavBar.vue'
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 
 // Import images directly
 import heroBackground1 from '@/assets/hero-background-1.jpg'
 import heroBackground2 from '@/assets/hero-background-2.jpg'
 import heroBackground3 from '@/assets/hero-background-3.jpg'
-import heroBackground4 from '@/assets/hero-background-4.jpg'
 import heroBackground5 from '@/assets/hero-background-5.jpg'
 import heroBackground6 from '@/assets/hero-background-6.jpg'
 import heroBackground7 from '@/assets/hero-background-7.png'
-import heroBackground8 from '@/assets/hero-background-8.jpg'
 import { useRoute, useRouter } from 'vue-router'
 
 const backgrounds = [
   heroBackground1,
   heroBackground2,
   heroBackground3,
-  heroBackground4,
   heroBackground5,
   heroBackground6,
   heroBackground7,
-  heroBackground8,
 ]
 
 // Preload images with Promise
@@ -70,28 +66,42 @@ const animateBackground = () => {
   }, 2000)
 }
 
+// Compute current background source based on index
+const currentBgSrc = computed(() => backgrounds[currentBgIndex.value])
+const nextBgSrc = computed(() => backgrounds[nextBgIndex.value])
+
+// Performance improvement: Only start animations when component is visible
+const startBackgroundAnimation = () => {
+  if (!intervalId) {
+    // Increased interval to 12 seconds to reduce CPU usage
+    intervalId = setInterval(animateBackground, 12000)
+  }
+}
+
+const stopBackgroundAnimation = () => {
+  if (intervalId) {
+    clearInterval(intervalId)
+    intervalId = null
+  }
+}
+
 onMounted(async () => {
   // Preload images first
   await preloadImages(backgrounds)
 
   const heroElement = document.querySelector('#hero')
   if (heroElement) {
+    // Performance improvement: Use more efficient observer options
     observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          isVisible.value = entry.isIntersecting
+        const isIntersecting = entries[0].isIntersecting
+        isVisible.value = isIntersecting
 
-          if (entry.isIntersecting) {
-            // Start the background animation when the hero section is in view
-            if (!intervalId) {
-              intervalId = setInterval(animateBackground, 8000)
-            }
-          } else {
-            // Stop the background animation when the hero section is out of view
-            clearInterval(intervalId)
-            intervalId = null
-          }
-        })
+        if (isIntersecting) {
+          startBackgroundAnimation()
+        } else {
+          stopBackgroundAnimation()
+        }
       },
       {
         root: null,
@@ -103,14 +113,16 @@ onMounted(async () => {
   }
 
   // Ensure hero is visible initially
-  requestAnimationFrame(() => {
-    isVisible.value = true
-  })
+  isVisible.value = true
+  startBackgroundAnimation()
 })
 
 onBeforeUnmount(() => {
-  clearInterval(intervalId)
-  observer?.disconnect()
+  stopBackgroundAnimation()
+  if (observer) {
+    observer.disconnect()
+    observer = null
+  }
 })
 
 const router = useRouter()
@@ -144,18 +156,17 @@ const handleSectionLink = (hash) => {
 <template>
   <section class="hero" id="hero">
     <div class="hero-background"></div>
-    <!-- Current Background -->
+    <!-- Using computed properties for image sources -->
     <div
       class="hero-overlay"
       :class="{ active: activeBg === 0, hidden: activeBg === 1 }"
-      :style="{ backgroundImage: `url(${backgrounds[currentBgIndex]})` }"
+      :style="{ backgroundImage: `url(${currentBgSrc})` }"
     ></div>
 
-    <!-- Next Background -->
     <div
       class="hero-overlay next"
       :class="{ active: activeBg === 1, hidden: activeBg === 0 }"
-      :style="{ backgroundImage: `url(${backgrounds[nextBgIndex]})` }"
+      :style="{ backgroundImage: `url(${nextBgSrc})` }"
     ></div>
 
     <NavBar />
@@ -189,6 +200,7 @@ const handleSectionLink = (hash) => {
   overflow: hidden;
   /* GPU acceleration */
   transform: translateZ(0);
+  will-change: transform;
   font-family: 'Jost', sans-serif;
 }
 
@@ -209,7 +221,7 @@ const handleSectionLink = (hash) => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1;
 }
 
@@ -222,19 +234,15 @@ const handleSectionLink = (hash) => {
   background-size: cover;
   background-position: center;
   z-index: 0;
-  transition:
-    opacity 2s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 30s linear;
-  animation: panZoom 30s linear infinite;
-  transform: translateY(100px);
+  transition: opacity 2s ease-out;
   backface-visibility: hidden;
-  will-change: transform, opacity;
+  will-change: opacity;
 }
 
 .hero-overlay.active {
   opacity: 1;
   z-index: 0;
-  animation: panZoom 30s linear infinite;
+  animation: panZoom 40s linear infinite;
 }
 
 .hero-overlay.hidden {
@@ -245,7 +253,7 @@ const handleSectionLink = (hash) => {
 .hero-overlay.next {
   opacity: 0.4;
   z-index: -1;
-  animation: panZoom 30s linear infinite;
+  animation: panZoom 40s linear infinite;
 }
 
 /* Background Animations */

@@ -104,8 +104,11 @@ const filteredProjects = computed(() => {
 
 <style lang="css" scoped>
 .projects-page {
+  width: 100%;
+  min-height: 100dvh;
   padding: 0;
   background: #fafafa;
+  font-family: 'Jost', sans-serif;
 }
 
 .navbar {
@@ -180,14 +183,14 @@ const filteredProjects = computed(() => {
   text-align: center;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
   color: white;
+}
 
-  .header-content {
-    position: relative;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    z-index: 2;
-  }
+.page-header .header-content {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  z-index: 2;
 }
 
 .page-title {
