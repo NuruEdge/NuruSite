@@ -169,7 +169,9 @@ const handleSectionLink = (hash) => {
       :style="{ backgroundImage: `url(${nextBgSrc})` }"
     ></div>
 
-    <NavBar />
+    <div class="navbar">
+      <NavBar />
+    </div>
 
     <div class="hero-content">
       <h1 class="hero-title" :class="{ 'slide-in': isVisible }">Welcome to Nuru Edge</h1>
@@ -269,6 +271,15 @@ const handleSectionLink = (hash) => {
   100% {
     transform: scale(1) translateX(0);
   }
+}
+
+/* NavBar */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
 }
 
 /* Content Animations */
