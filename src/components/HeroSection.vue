@@ -233,7 +233,6 @@ const handleSectionLink = (hash) => {
   z-index: 0;
   transition: opacity 2s ease-out;
   backface-visibility: hidden;
-  will-change: opacity;
 }
 
 .hero-overlay.active {
