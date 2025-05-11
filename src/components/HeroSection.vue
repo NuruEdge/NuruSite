@@ -198,9 +198,6 @@ const handleSectionLink = (hash) => {
   text-align: center;
   color: white;
   overflow: hidden;
-  /* GPU acceleration */
-  transform: translateZ(0);
-  will-change: transform;
   font-family: 'Jost', sans-serif;
 }
 
@@ -221,7 +218,7 @@ const handleSectionLink = (hash) => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 1;
 }
 

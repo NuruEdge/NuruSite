@@ -12,11 +12,30 @@ export default defineConfig([
 
   globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
 
+  // Base configuration for Vue files
   {
+    files: ['**/*.vue'],
     languageOptions: {
       globals: {
         ...globals.browser,
       },
+    },
+  },
+
+  // Configuration for Node.js files (API routes)
+  {
+    files: ['api/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+      parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+      },
+    },
+    env: {
+      node: true,
     },
   },
 

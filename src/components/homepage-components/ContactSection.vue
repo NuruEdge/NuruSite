@@ -1,6 +1,5 @@
 <script setup>
-import { reactive } from 'vue'
-import emailjs from '@emailjs/browser'
+import { reactive, ref } from 'vue'
 import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
@@ -10,28 +9,73 @@ const formData = reactive({
   message: '',
 })
 
-emailjs.init(import.meta.env.VITE_EMAILJS_PUBLICKEY)
+const isLoading = ref(false)
+const honeypot = ref('')
+const formSubmitted = ref(false)
+const formError = ref(null)
+
+const validateEmail = (email) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
 
 const sendEmail = async () => {
-  const templateParams = {
-    name: formData.name,
-    email: formData.email,
-    message: formData.message,
-  }
-  try {
-    await emailjs.send(
-      import.meta.env.VITE_EMAILJS_SERVICEKEY, // Service Key
-      import.meta.env.VITE_EMAILJS_TEMPLATEKEY, // Template Key
-      templateParams,
-    )
+  // Reset state
+  formError.value = null
 
-    toast.success("Email sent successfully. We'll be in touch soon!")
+  // Bot detection
+  if (honeypot.value !== '') return
+
+  // Client-side validation
+  if (!formData.name.trim()) {
+    formError.value = 'Name is required'
+    return
+  }
+
+  if (!formData.email.trim() || !validateEmail(formData.email)) {
+    formError.value = 'Please enter a valid email address'
+    return
+  }
+
+  if (!formData.message.trim() || formData.message.trim().length < 10) {
+    formError.value = 'Message must be at least 10 characters'
+    return
+  }
+
+  isLoading.value = true
+
+  try {
+    const response = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to send message')
+    }
+
+    // Success handling
+    toast.success('Message sent successfully! We will get back to you soon.')
+    formSubmitted.value = true
+
+    // Clear form
     formData.name = ''
     formData.email = ''
     formData.message = ''
+
+    // Reset form state after 5 seconds
+    setTimeout(() => {
+      formSubmitted.value = false
+    }, 5000)
   } catch (error) {
-    toast.error('Email not sent. Try again later.')
-    console.error('Error sending email:', error)
+    toast.error(error.message || 'Failed to send message. Please try again.')
+    console.error('Error:', error)
+  } finally {
+    isLoading.value = false
   }
 }
 </script>
@@ -83,17 +127,48 @@ const sendEmail = async () => {
             </div>
           </div>
         </div>
+
+        <div v-if="formSubmitted" class="success-message">
+          <font-awesome-icon icon="fa-solid fa-check-circle" class="success-icon" />
+          <h3>Thank You!</h3>
+          <p>Your message has been sent successfully. We'll get back to you soon!</p>
+        </div>
+
         <form @submit.prevent="sendEmail" class="contact-form">
+          <!-- Honeypot field -->
+          <input type="text" v-model="honeypot" style="display: none" />
           <div class="form-group">
-            <input type="text" placeholder="Name" v-model="formData.name" required />
+            <label for="name" class="sr-only">Name</label>
+            <input type="text" id="name" placeholder="Name" v-model="formData.name" required />
           </div>
+
           <div class="form-group">
-            <input type="email" placeholder="Email" v-model="formData.email" required />
+            <label for="email" class="sr-only">Email</label>
+            <input type="email" id="email" placeholder="Email" v-model="formData.email" required />
           </div>
+
           <div class="form-group">
-            <textarea placeholder="Message" rows="5" v-model="formData.message" required></textarea>
+            <label for="message" class="sr-only">Message</label>
+            <textarea
+              id="message"
+              placeholder="Message"
+              rows="5"
+              v-model="formData.message"
+              required
+            ></textarea>
           </div>
-          <button type="submit" class="submit-btn">Send Message</button>
+
+          <div v-if="formError" class="error-message">
+            {{ formError }}
+          </div>
+
+          <button type="submit" class="submit-btn" :disabled="isLoading">
+            <span v-if="isLoading">
+              <font-awesome-icon icon="fa-solid fa-spinner" spin />
+              Sending...
+            </span>
+            <span v-else>Send Message</span>
+          </button>
         </form>
       </div>
     </div>
@@ -260,6 +335,41 @@ h3::before {
 .email p:hover,
 .whatsapp p:hover {
   background-color: transparent;
+}
+
+.success-message {
+  background-color: #f0f9eb;
+  border-radius: 5px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.success-icon {
+  font-size: 3rem;
+  color: #67c23a;
+  margin-bottom: 15px;
+}
+
+.error-message {
+  color: #f56c6c;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  padding: 8px;
+  background-color: rgba(245, 108, 108, 0.1);
+  border-radius: 4px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .contact-form {
